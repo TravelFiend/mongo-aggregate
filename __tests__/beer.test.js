@@ -62,7 +62,7 @@ describe('routes', () => {
             });
     });
 
-    it('should get all beers', () => {
+    it('should get all beers', async() => {
         return request(app)
             .get('/api/v1/beer')
             .then(res => {
@@ -81,7 +81,7 @@ describe('routes', () => {
             });
     });
 
-    it('should update a beer', () => {
+    it('should update a beer', async() => {
         return request(app)
             .patch(`/api/v1/beer/${beer._id}`)
             .send({ beerName: 'Inversion', overallScore: 4.3 })
@@ -93,6 +93,44 @@ describe('routes', () => {
                     beerStyle: 'American IPA',
                     abv: 6.5,
                     overallScore: 4.3,
+                    aromaScore: 3.9,
+                    appearanceScore: 4.1,
+                    tasteScore: 4,
+                    __v: 0
+                });
+            });
+    });
+
+    it('should get a beer by id', async() => {
+        return request(app)
+            .get(`/api/v1/beer/${beer._id}`)
+            .then(res => {
+                expect(res.body).toEqual({
+                    _id: expect.any(String),
+                    brewery: 'Deschutes',
+                    beerName: 'Fresh Squeezed',
+                    beerStyle: 'American IPA',
+                    abv: 6.5,
+                    overallScore: 4,
+                    aromaScore: 3.9,
+                    appearanceScore: 4.1,
+                    tasteScore: 4,
+                    __v: 0
+                });
+            });
+    });
+
+    it('should delete a beer by id', async() => {
+        return request(app)
+            .delete(`/api/v1/beer/${beer._id}`)
+            .then(res => {
+                expect(res.body).toEqual({
+                    _id: expect.any(String),
+                    brewery: 'Deschutes',
+                    beerName: 'Fresh Squeezed',
+                    beerStyle: 'American IPA',
+                    abv: 6.5,
+                    overallScore: 4,
                     aromaScore: 3.9,
                     appearanceScore: 4.1,
                     tasteScore: 4,
